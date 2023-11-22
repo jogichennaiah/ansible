@@ -1,0 +1,11 @@
+- name: Demo on privilage escalation  
+  hosts: all 
+  become: yes                                                    #privilage escalation: Runs the playbook as a root user
+  tasks:
+     - name: Checking User ID
+       ansible.builtin.shell: id
+       register: OUT
+
+     - name: printing the user detailes
+       ansible.builtin.debug:
+         msg: "{{OUT}}"

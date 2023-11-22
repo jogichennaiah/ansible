@@ -1,0 +1,34 @@
+- name: Demo on vars usage
+  hosts: all
+  vars:                                    # Global variables : All the values of this play can access this variables
+    URL: play.google.com
+  vars_prompt:
+
+  - name: URNAME
+    prompt: Enter your name
+    private: false
+
+  tasks:
+     - name: Printing the variable
+       ansible.builtin.debug:
+         msg: value of the URL is {{URL}}
+
+     - name: Demo on using local variable  
+       ansible.builtin.debug:
+         msg: value of the URL's is {{URL}}
+       vars:
+           URL: task.google.com
+
+    # - name: Demo on using undelated variable
+    #   ansible.builtin.debug:
+    #    msg: value of the CLIURL is {{CLIURL}}
+
+     - name: Printing prompt variable
+       ansible.builtin.debug:
+         msg: Name of the person is {{URNAME}}
+
+     - name: This is env specific
+       ansible.builtin.debug:
+         msg: tYPE OF Instance to be used {{INS_TYPE}}      
+
+# NOTE : if you would just like to print a variable , then enclose the value in "{{varName}}"" and there is no single qoute concept  

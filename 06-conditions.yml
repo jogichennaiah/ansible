@@ -1,0 +1,20 @@
+- name: Demo on conditions
+  hosts: all
+  vars: 
+     action: true
+  tasks:
+
+     - name: Run this only when the discription is CentOS
+       ansible.builtin.debug:
+         msg: Welcome To CentOs {{ansible_distribution}}
+       when: ansible_distribution == "CentOS"  
+
+     - name: Run this only when the discription is Ubuntu
+       ansible.builtin.debug:
+         msg: Welcome To Ubuntu {{ansible_distribution}}
+       when: ansible_distribution == "Ubuntu"
+
+     - name: Run this action 
+       ansible.builtin.debug:
+         msg: Action is true 
+       when: action 

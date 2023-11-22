@@ -1,0 +1,42 @@
+- name: Copying the {{COMPONENT}} repo
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongodb.repo
+
+- name: Installing {{COMPONENT}}
+  ansible.builtin.package:
+    name: mongodb-org
+    state: present
+
+- name: Configuring the {{COMPONENT}} visibility
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+
+- name: Starting {{COMPONENT}} 
+  systemd:
+    name: mongod
+    state: restarted
+    enabled: yes
+    daemon_reload: yes 
+
+- name: Download and extracting {{COMPONENT}} schema
+  ansible.builtin.unarchive:
+    src: https://github.com/stans-robot-project/mongodb/archive/main.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Injecting the {{COMPONENT}} schema
+  community.mongodb.mongodb_shell:
+    file: "/tmp/mongodb-main/{{item}}.js"
+    idempotent: yes
+  loop:
+    - users
+    - catalogue
+
+- name: Just Printing
+  ansible.builtin.debug:
+     msg: I am a variable {{DB}}
+

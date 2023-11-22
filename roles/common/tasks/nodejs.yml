@@ -1,0 +1,60 @@
+- name: Configuring Nodejs
+  ansible.builtin.shell: curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
+
+- name: Installing Nodejs
+  ansible.builtin.package:
+    name: nodejs
+    state: present
+
+- name: Creating app user
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: create_user
+
+
+- name: Downloading .pem file 
+  ansible.builtin.get_url:
+    url: https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+    dest: /home/{{APPUSER}}/global-bundle.pem 
+  become_user: "{{APPUSER}}"
+
+# Downloads the code directly from github
+# - name: Downloading and extracting {{COMPONENT}}
+#   ansible.builtin.include_role:
+#      name: common
+#      tasks_from: download_and_extract
+
+
+- name: Downloading and extracting {{COMPONENT}} fromNexus
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: download_from_nexus
+
+# Only use this when you want to download the code from Github and create artifacts, with CI in place, we always use NEXUS.
+# - name: Generating Artifacts with npm install 
+#   community.general.npm:
+#     path: /home/{{APPUSER}}/{{COMPONENT}}/ 
+
+
+
+- name: Downloading and extracting {{COMPONENT}}
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: download_and_extract
+
+
+- name: Generating artifacts with npm install
+  community.general.npm:
+    path: /home/{{APPUSER}}/{{COMPONENT}}
+
+
+- name: Configuring {{COMPONENT}} Service
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: config_svc
+
+- name: Configuring Name 
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: set_name
+

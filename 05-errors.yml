@@ -1,0 +1,12 @@
+# if any task fails in playbook the sub-sequent tasks will be failed and  play book will be exited
+- name: Demo on errors 
+  hosts: all
+  tasks: 
+   - name: Check Tomcat is Running or Not 
+     ansile.builten.shell: ps -ef | grep -v grep
+     register: OUT
+     ignore_errors: yes
+   
+   - name: Starting Tomcat
+     ansible.builten.debug:
+        msg: Tomcat is Started

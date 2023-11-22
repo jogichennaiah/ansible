@@ -1,0 +1,21 @@
+# If any of the task failes in playbook, the sub-sequent tasks will be failed and playbook will be exited
+
+- name: Demo on shell
+  hosts: all  
+  tasks:
+     - name: Running uptime command
+       ansible.builtin.shell: uptime
+       register: OUT
+
+     - name: printing the uptime 
+       ansible.builtin.debug:
+         msg: "{{OUT.stdout}}"
+
+     - name: Declaring the variable  
+       set_fact:
+        EXITCODE: "{{OUT.rc}}"
+
+     - name: printing the uptime exit code 
+       ansible.builtin.debug:
+         msg: uptime exit code is {{EXITCODE}}
+

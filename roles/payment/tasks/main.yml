@@ -1,0 +1,24 @@
+- name: Configuring {{COMPONENT}}
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: python
+
+- name: Starting {{COMPONENT}}
+  systemd:
+    name: "{{COMPONENT}}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes 
+
+- name: Configuring {{COMPONENT}} Service
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: config_svc
+
+
+- name: Configuring Name 
+  ansible.builtin.include_role:
+     name: common
+     tasks_from: set_name
+
+

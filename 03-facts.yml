@@ -1,0 +1,14 @@
+- name: Demo on facts
+  hosts: all
+                                              # gather_facts:no    if youn don't need facts to be gatherd , we can mention this is no.
+  gather_facts: no
+  
+  tasks:
+     - name: Printing the default variable
+       ansible.builtin.debug:
+         msg: Server Flavor is {{ansible_distribution}}
+
+     - name: Printing the mac address 
+       ansible.builtin.debug:
+         msg: Mac Address of the Node is  {{ansible_default_ipv4.macaddress}}
+
