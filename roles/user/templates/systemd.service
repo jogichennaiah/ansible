@@ -3,8 +3,8 @@ Description = User Service
 [Service]
 User=roboshop
 Environment=MONGO=true
-Environment=REDIS_HOST=redis-dev.roboshop.in
-Environment=MONGO_URL="mongodb://{{SECRETS.DOCDB_USER}}:{{SECRETS.DOCDB_PASSWORD}}@{{MONGODB_ENDPOINT}}:27017/catalogue?tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+Environment=REDIS_HOST=redis-dev.roboshop.internal
+Environment=MONGO_URL="mongodb://{{SECRETS.DOCDB_USERNAME}}:{{SECRETS.DOCDB_PASSWORD}}@{{MONGODB_ENDPOINT}}:27017/users?tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
 ExecStart=/bin/node /home/roboshop/user/server.js
 SyslogIdentifier=user
 
