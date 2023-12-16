@@ -33,10 +33,10 @@
 #     name: elk
 #     tasks_from: rsyslog
 
-# - name: Installing Filebeat 
-#   ansible.builtin.include_role:
-#     name: elk
-#     tasks_from: filebeat
+- name: Installing Filebeat 
+  ansible.builtin.include_role:
+    name: elk
+    tasks_from: filebeat
 
 # - name: Installing Node Exporter 
 #   ansible.builtin.include_role:
