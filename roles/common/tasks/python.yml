@@ -49,6 +49,15 @@
   ansible.builtin.include_role:
     name: common
     tasks_from: config_svc 
+- name: Installing Rsyslog 
+  ansible.builtin.include_role:
+    name: elk
+    tasks_from: rsyslog 
+
+- name: Installing Filebeat 
+  ansible.builtin.include_role:
+    name: elk
+    tasks_from: filebeat
 
 - name: Starting payment
   systemd:
