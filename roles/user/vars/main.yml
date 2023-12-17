@@ -1,2 +1,2 @@
 APPUSER: roboshop
-LOGFILE: /var/log/user.log
+LOGFILE: /var/log/cart.log
