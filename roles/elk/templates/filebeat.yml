@@ -7,6 +7,8 @@ filebeat.inputs:
   id: my-filestream-id
 
   enabled: true
+      - "{{LOGFILE}}"
+
 
   paths:
     - /var/log/nginx/access.log
