@@ -33,5 +33,18 @@
     enabled: yes
     daemon_reload: yes 
 
-- name: Configuring  Service name
-  ansible.builtin.shell: set-hostname {{COMPONENT}}-{{ENV}}
+- name: Installing Filebeat 
+  ansible.builtin.include_role:
+    name: elk
+    tasks_from: filebeat
+
+- name: Installing Node Exporter 
+  ansible.builtin.include_role:
+    name: prometheus
+    tasks_from: node_exporter
+
+- name: Configuring Name
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: set_name
+
